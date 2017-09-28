@@ -1,45 +1,34 @@
 ﻿@model count.less.solutions.Models.ViewModels.IndexViewModel
-
 <div>
 	<h2>current count:</h2>
 </div>
-<div>@Model.Counter.Count</div>
-<div id='count'>0</div>
-<div id='counter'>0</div>
+<div id='counter'>@Model.Counter.Count</div>
 <div>
 	<button id="addButton" name="addButton">+</button>
 	<button id="resetButton" name="resetButton">Reset</button>
 </div>
 
-
 <script>
-	var count = 0;
-
     $('#addButton').click(function () {
         console.log("add 1...");
-	    count++;
-	    $('#count').text(count);
 
-	var model = @Html.Raw(Json.Encode(Model)); //Convert Model to JSON 
+	    var counter = @Html.Raw(Json.Encode(Model.Counter)); //Convert Model to JSON 
+        $.ajax({
+            type: 'POST',
+            url: '/Home/add',
+            data: JSON.stringify(counter),
+            contentType: "application/json",
+            success: function(result) {
+                console.log('yeah');
+                $('#counter').text(result.Count);
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+    });
 
-	$.ajax({
-        type: 'POST',
-        url: 'http://localhost:8080/Home/add',
-        dataType: 'json',
-        data: JSON.stringify(model),
-        success:  function(resultModel){
-	        console.log('yeah');
-	        model = resultModel;
-	        $('#counter').text(model.Counter.Count);
-        },
-        error: function (xhr, textStatus, errorThrown) {
-            console.log(errorThrown);
-        }
-    });
-    });
 	$('#resetButton').click(function () {
         console.log("reset");
-        count = 0;
-        $('#count').text(count);
-    });
+	});
 </script>

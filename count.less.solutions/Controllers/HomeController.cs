@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using count.less.solutions.Models.Domain;
 using count.less.solutions.Models.ViewModels;
 using NHibernate;
 
@@ -11,20 +12,26 @@ namespace count.less.solutions.Controllers
 			using (ISession session = Persistence.NHibertnateSession.OpenSession())
 			{
                 var model = new IndexViewModel();
-                model.Counter = session.Get<Models.Domain.Counter>(0);
+                //TODO get a meaningful counter
+                model.Counter = session.Get<Models.Domain.Counter>(1);
                 return View(model);
 			}
         }
 
 		[HttpPost]
 		[AllowAnonymous]
-        public JsonResult Add(IndexViewModel model)
+        public JsonResult Add(Counter model)
 		{
 			using (ISession session = Persistence.NHibertnateSession.OpenSession())
 			{
-                model.Counter.Add();
-                session.Merge(model);
-				return Json(model);
+			    using (ITransaction transaction = session.BeginTransaction())
+			    {
+			        var counterInDb = session.Get<Counter>(model.Id);
+			        counterInDb.Add();
+			        session.SaveOrUpdate(counterInDb);
+			        transaction.Commit();
+			        return Json(counterInDb);
+                }
 			}
 
 		} 

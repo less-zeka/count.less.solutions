@@ -3,7 +3,7 @@ namespace count.less.solutions.Models.Domain
 {
     public class Counter
     {
-        protected Counter()
+        public Counter()
         {
             Count = 0;
         }
@@ -13,7 +13,7 @@ namespace count.less.solutions.Models.Domain
             return new Counter();
         }
 
-        public virtual Guid Id { get; set; }
+        public virtual int Id { get; set; }
 
 		public virtual int Count
 		{
