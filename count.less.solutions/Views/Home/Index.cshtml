@@ -30,7 +30,22 @@
         });
     });
 
-	$('#resetButton').click(function () {
-        console.log("reset");
-	});
+    $('#minusButton').click(function () {
+        console.log("remove 1...");
+
+        var counter = @Html.Raw(Json.Encode(Model.Counter)); //Convert Model to JSON 
+        $.ajax({
+            type: 'POST',
+            url: '/Home/minus',
+            data: JSON.stringify(counter),
+            contentType: "application/json",
+            success: function(result) {
+                console.log('yeah');
+                $('#counter').text(result.Count);
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+    });
 </script>

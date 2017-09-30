@@ -33,7 +33,24 @@ namespace count.less.solutions.Controllers
 			        return Json(counterInDb);
                 }
 			}
+		}
 
-		} 
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult Minus(Counter model)
+        {
+            using (ISession session = Persistence.NHibertnateSession.OpenSession())
+            {
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    var counterInDb = session.Get<Counter>(model.Id);
+                    counterInDb.Minus();
+                    session.SaveOrUpdate(counterInDb);
+                    transaction.Commit();
+                    return Json(counterInDb);
+                }
+            }
+        }
+
     }
 }

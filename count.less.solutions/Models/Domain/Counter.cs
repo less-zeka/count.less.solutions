@@ -25,8 +25,9 @@ namespace count.less.solutions.Models.Domain
             Count++;
         }
 
-        public virtual void Reset(){
-            Count = 0;
+        public virtual void Minus()
+        {
+            Count--;
         }
     }
 }
