@@ -1,13 +1,15 @@
 ﻿@model count.less.solutions.Models.ViewModels.IndexViewModel
-<div>
-	<h2>current count:</h2>
-</div>
-<div id='counter'>@Model.Counter.Count</div>
-<div>
-	<button id="addButton" name="addButton">+</button>
-	<button id="resetButton" name="resetButton">Reset</button>
-</div>
 
+<div class="row">
+	<div class="rcorners2 col-xs-12 col-md-4 text-center">
+		<h1>current count:</h1>
+		<h1 id='counter'>@Model.Counter.Count</h1>
+		<div>
+			<button class="btn btn-lg btn-danger" id="minusButton" name="minusButton">-</button>
+			<button class="btn btn-lg btn-success" id="addButton" name="addButton">+</button>
+		</div>
+	</div>
+</div>
 <script>
     $('#addButton').click(function () {
         console.log("add 1...");
