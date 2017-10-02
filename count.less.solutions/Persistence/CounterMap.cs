@@ -9,6 +9,8 @@ namespace count.less.solutions.Persistence
 		{
             Id(c => c.Id);
             Map(c => c.Count);
+		    Map(c => c.CreatedAt);
+		    Map(c => c.UpdatedAt);
 		}
 	}
 }

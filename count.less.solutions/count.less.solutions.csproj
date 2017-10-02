@@ -97,8 +97,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Models\Domain\IHaveAuditInformation.cs" />
     <Compile Include="Models\ViewModels\IndexViewModel.cs" />
     <Compile Include="Models\Domain\Counter.cs" />
+    <Compile Include="Persistence\AuditEventListener.cs" />
     <Compile Include="Services\CounterService.cs" />
     <Compile Include="Persistence\CounterMap.cs" />
     <Compile Include="Persistence\NHibernateSession.cs" />

@@ -1,11 +1,11 @@
 ﻿using System;
+
 namespace count.less.solutions.Models.Domain
 {
-    public class Counter
+    public class Counter : IHaveAuditInformation
     {
         public Counter()
         {
-            Count = 0;
         }
 
         public static Counter GetUserCounter(){
@@ -18,7 +18,7 @@ namespace count.less.solutions.Models.Domain
 		public virtual int Count
 		{
 			get;
-			set;
+		    protected set;
 		}
 
         public virtual void Add(){
@@ -29,5 +29,8 @@ namespace count.less.solutions.Models.Domain
         {
             Count--;
         }
+
+        public virtual DateTime CreatedAt { get; set; }
+        public virtual DateTime UpdatedAt { get; set; }
     }
 }

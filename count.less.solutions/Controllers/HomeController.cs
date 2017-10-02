@@ -13,7 +13,7 @@ namespace count.less.solutions.Controllers
 			{
                 var model = new IndexViewModel();
                 //TODO get a meaningful counter
-                model.Counter = session.Get<Models.Domain.Counter>(1);
+			    model.Counter = GetCounter(session); 
                 return View(model);
 			}
         }
@@ -27,8 +27,16 @@ namespace count.less.solutions.Controllers
 			    using (ITransaction transaction = session.BeginTransaction())
 			    {
 			        var counterInDb = session.Get<Counter>(model.Id);
-			        counterInDb.Add();
-			        session.SaveOrUpdate(counterInDb);
+			        if (counterInDb == null)
+			        {
+			            model.Add();
+			            session.Save(model);
+			        }
+			        else
+			        {
+			            counterInDb.Add();
+			            session.SaveOrUpdate(counterInDb);
+			        }
 			        transaction.Commit();
 			        return Json(counterInDb);
                 }
@@ -50,6 +58,16 @@ namespace count.less.solutions.Controllers
                     return Json(counterInDb);
                 }
             }
+        }
+
+        private Counter GetCounter(ISession session)
+        {
+            var result = session.Get<Counter>(1);
+            if (result == null)
+            {
+                result = new Counter();
+            }
+            return result;
         }
 
     }
